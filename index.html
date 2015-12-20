@@ -1,0 +1,81 @@
+<html>
+  <head>
+  </head>
+
+  <style>
+
+   #left {
+     background-color: rgba(255,0,0,0.2);
+     position: fixed;
+     top:0px;
+     left:0px;
+     bottom:0px;
+     width: 200px;
+   }
+
+   #content_frame {
+     background-color: rgba(0,255,0,0.2);
+     position: fixed;
+     top:0px;
+     right:0px;
+     bottom:0px;
+     left: 200px;
+     border: 0;
+     padding:0;
+     margin:0;
+   }
+
+   #content_frame > iframe {
+     background-color: rgba(0,0,255,0.2);
+     width: 100%;
+     height: 100%;
+     border: 0;
+     padding: 0;
+     margin: 0;
+   }
+
+  </style>
+
+  <script language='javascript'>
+
+   var current_frame = null;
+   var current_url = '';
+   
+   function loadFrame(url) {
+       var target = document.getElementById('content_frame');
+       var frame = document.createElement('iframe');
+
+       frame.src = url;
+       current_url = url;
+       
+       target.innerHTML = '';
+       target.appendChild(frame);
+       current_frame = frame;
+   }
+
+   function send(obj) {
+       if (current_frame == null) {
+           return null;
+       }
+
+       current_frame.contentWindow.postMessage(obj, "http://localhost:4040/");
+   }
+
+   function receiveMessage(event) {
+       console.log(event);
+   }
+
+   window.addEventListener("message", receiveMessage, false);
+
+   var GlobalObject = {
+       'value':'100'
+   };
+
+  </script>
+  
+  <body>
+    <div id='left'>Left</div>
+    <div id='content_frame'></div>
+  </body>
+
+</html>

@@ -1,0 +1,17 @@
+<script>
+
+ function receiveMessage(event) {
+     var d = document.getElementById('boop');
+     d.innerHTML = 'Hello ' + event.data;
+     send("Got it!");
+ }
+
+ function send(obj) {
+     parent.postMessage(obj, "http://localhost:4040/");
+ }
+
+ window.addEventListener("message", receiveMessage, false);
+
+</script>
+
+<h1 id='boop'>Hello World</h1>
