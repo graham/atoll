@@ -1,17 +1,25 @@
+<script language='javascript' src='/js/jquery-2.1.4.min.js'> </script>
+<script src='/js/client.js'></script>
+
 <script>
 
- function receiveMessage(event) {
-     var d = document.getElementById('boop');
-     d.innerHTML = 'Hello ' + event.data;
-     send("Got it!");
+ atoll_client_obj.on('load', function(obj) {
+     var d = document.getElementById('boop')
+     d.innerHTML = 'loaded.'
+ });
+
+ atoll_client_obj.request('/request/user_data').then((data) => {
+     var d = document.getElementById('boop')
+     d.innerHTML = data
+ })
+
+ function reload_data() {
+     atoll_client_obj.request('/request/user_data').then((data) => {
+         var d = document.getElementById('boop')
+         d.innerHTML = 'DONE: ' + data
+     })
  }
-
- function send(obj) {
-     parent.postMessage(obj, "http://localhost:4040/");
- }
-
- window.addEventListener("message", receiveMessage, false);
-
 </script>
 
-<h1 id='boop'>Hello World</h1>
+<h1 id='boop'>loading...</h1>
+<a href='#' onclick='reload_data();'>Reload</a>
