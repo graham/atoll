@@ -37,10 +37,10 @@
   </style>
 
   <script language='javascript' src='/js/jquery-2.1.4.min.js'> </script>
-  <script language='javascript' src='/js/left_client.js'> </script>
+  <script language='javascript' src='/js/parent.js'> </script>
 
   <script language='javascript'>
-   var server = new FrameManager();
+   var server = new Parent();
    $(document).ready(function() {
        server.load_frame('frames/hi.html');
    });

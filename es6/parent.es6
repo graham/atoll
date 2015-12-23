@@ -1,4 +1,4 @@
-class FrameManager {
+class Parent {
     constructor() {
         this.current_frame = null
         this.current_url = null
