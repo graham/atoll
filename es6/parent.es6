@@ -1,5 +1,6 @@
 class Parent {
     constructor() {
+        this.data_cache = {}
         this.current_frame = null
         this.current_url = null
         window.addEventListener("message", (event) => { this.handle_message(event); }, false)
@@ -25,9 +26,7 @@ class Parent {
         if (this.current_frame == null) {
             return null;
         }
-        
         var d = {'type':event, 'payload':obj}
-        
         this.current_frame.contentWindow.postMessage(d, "http://localhost:4040/");
     }
 
@@ -35,9 +34,15 @@ class Parent {
         console.log("PARENT -> From Child: " + JSON.stringify(event.data))
         let payload = event.data.payload
         if (event.data.type == '__data_request') {
-            $.get(payload.url).then((data) => {
+            if (this.data_cache[payload.url] == undefined) {
+                $.get(payload.url).then((data) => {
+                    this.send('__data_response', {'url':payload.url, 'data':data})
+                    this.data_cache[payload.url] = data
+                })
+            } else {
+                let data = this.data_cache[payload.url]
                 this.send('__data_response', {'url':payload.url, 'data':data})
-            })
+            }
             return
         }
         console.log("Unhandled event type: " + event.data.type)

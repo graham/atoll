@@ -4,14 +4,12 @@
 <script>
 
  atoll_client_obj.on('load', function(obj) {
-     var d = document.getElementById('boop')
-     d.innerHTML = 'loaded.'
+     atoll_client_obj.request('/request/user_data').then((data) => {
+         var d = document.getElementById('boop')
+         d.innerHTML = data
+     })
  });
 
- atoll_client_obj.request('/request/user_data').then((data) => {
-     var d = document.getElementById('boop')
-     d.innerHTML = data
- })
 
  function reload_data() {
      atoll_client_obj.request('/request/user_data').then((data) => {
