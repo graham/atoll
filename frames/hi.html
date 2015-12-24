@@ -5,16 +5,18 @@
 
  atoll_client_obj.on('load', function(obj) {
      atoll_client_obj.request('/request/user_data').then((data) => {
+         var jdata = JSON.parse(data)
          var d = document.getElementById('boop')
-         d.innerHTML = data
+         d.innerHTML = "Hello " + jdata.username
      })
  });
 
 
  function reload_data() {
      atoll_client_obj.request('/request/user_data').then((data) => {
+         var jdata = JSON.parse(data)
          var d = document.getElementById('boop')
-         d.innerHTML = 'DONE: ' + data
+         d.innerHTML = "Hello " + jdata.username + ", again."
      })
  }
 </script>
